@@ -19,5 +19,6 @@ from PROTOTIPO.urls import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('PROTOTIPO.urls')),
-    path('', views.home, name="home")
+    path('home/', views.home, name="home"),
+    path('sistema/', views.sistema, name="sistema")
 ]
