@@ -36,7 +36,7 @@
 			<p class="text-camara" id="indicador_texto">Activa la <br> cámara</p>
 		</div>
 		<div class="itemBoton-empezar">
-			<img src="{% static 'traductor_lsc/imagenes/Boton.png' %}" class="boton-empezar" type="button" onclick="">
+			<img src="{% static 'traductor_lsc/imagenes/Boton.png' %}" class="boton-empezar" type="button" onclick="go()">
 			<p class="text-normal">Empezar</p>
 		</div>
 		<div class="video-container" class="itemVideo">
@@ -44,7 +44,7 @@
 		</div>
 		<div class="itemEspacio">
 			<p class="text-normal" style="font-size: 25px;"><b>Señas especiales:</b></p>
-			<button class="img-espacio" style="margin-left: 60px;" onclick=""></button>
+			<button class="img-espacio" style="margin-left: 60px;" onclick="chromakey()"></button>
 			<p class="text-normal" style="margin-bottom: 0;">Espacio</p>
 			<p class="text-normal" style="font-size: 15px;">(Da un espacio en la traducción)</p>
 		</div>
@@ -54,8 +54,12 @@
 			<p class="text-normal" style="font-size: 15px;">(Detiene la traducción)</p>
 		</div>
 	</div>
+	<canvas id="canvas" width="0" height="0"></canvas>
 	<script type="text/javascript">
 		var video = document.querySelector(".video-element");
+		var stop_button = false;
+		const canvas = document.querySelector('#canvas');
+		const ctx = canvas.getContext('2d');
 
 		if (navigator.mediaDevices.getUserMedia) {
 			
@@ -64,25 +68,55 @@
 					document.getElementById("indicador_flecha").style.display = "none";
 					document.getElementById("indicador_texto").style.display = "none";
 					video.srcObject = stream;
-		    })
-		    .catch(function (err0r) {
+			})
+
+			.catch(function (err0r) {
 		      console.log("Something went wrong!");
-		    });
+			});
+			
+			//es un evento en donde carga la infomación del video
+			video.addEventListener('loadeddata', ()=>{
+				canvas.width = video.videoWidth;
+				canvas.height = video.videoHeight;
+				//chromakey()
+			})
+
+			
+			//la función chromakey pinta la información de mi video
+			function go(){
+				this.boton-empezar = true;
+				document.getElementById("indicador_flecha").style.display = "none";
+				document.getElementById("indicador_texto").style.display = "none";	
+		  		var stream = video.srcObject;
+		  		var tracks = stream.getTracks();
+
+				for (var i = 0; i < tracks.length; i++) {
+				var track = tracks[i];
+				track.go();
+				}
+
+				video.srcObject = null;
+			}
 		}
 
 		function stop(e) {
+			this.stop_button = true;
 			document.getElementById("indicador_flecha").style.display = "block";
 			document.getElementById("indicador_texto").style.display = "block";	
-		  var stream = video.srcObject;
-		  var tracks = stream.getTracks();
+		  	var stream = video.srcObject;
+		  	var tracks = stream.getTracks();
 
-		  for (var i = 0; i < tracks.length; i++) {
-		    var track = tracks[i];
-		    track.stop();
-		  }
+			for (var i = 0; i < tracks.length; i++) {
+				var track = tracks[i];
+				track.stop();
+			}
 
-		  video.srcObject = null;
+			video.srcObject = null;
 		}
+		function init() {
+			document.getElementById("lsc_text").value = "";
+		}
+		window.onload = init;
 	</script>
 	<div class="text-container">
 		<input type="text" class="text-area" placeholder="Hola..." readonly>
