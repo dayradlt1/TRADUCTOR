@@ -15,6 +15,8 @@
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'traductor_lsc/estilosHome.css' %}"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+
 </head>
 <body>
 	<section class="header-background">
@@ -39,16 +41,26 @@
 				<img src="{% static 'traductor_lsc/imagenes/Boton.png' %}" class="boton-empezar" type="button" onclick="">
 			<p class="text-normal">Empezar</p>
 		</div>
-		<div class="video-container" class="itemVideo">
-			<video autoplay class="video-element" id="video"></video>
-			<canvas id="canvas" hidden></canvas>
-		</div>
-		<div class="itemEspacio">
-			<p class="text-normal" style="font-size: 25px;"><b>Funciones:</b></p>
-			<button class="img-espacio" style="margin-left: 60px;" onclick=""></button>
-			<p class="text-normal" style="margin-bottom: 0;">Espacio</p>
-			<p class="text-normal" style="font-size: 15px;">(Da un espacio en la traducción)</p>
-		</div>
+		<div class="parent">
+            <div class="camera">
+                <div class="video-container" class="itemVideo">
+                    <!-- Video feed from Backend -->
+					<video class="video-element" src="{% url 'video' l_s %}" alt="asdf" id="video"></video>
+					<canvas id="canvas" hidden></canvas>
+				</div>
+            </div>
+            <form action="" method="POST" id="range_form" class="range_form">
+                <!-- Masking slider -->
+                {% csrf_token %}
+                <!-- heading for masking slider -->
+                <h2>Lighting adjuster</h2>
+                <div class="range-slider">
+                    <input class="range-slider__range" name="slider1" type="range" min="1" value="{{l_s}}" max="255"
+                        id="slider1">
+                    <span class="range-slider__value" id="slider_span1">{{l_s}}</span>
+                </div>
+            </form>
+        </div>
 		<div class="itemParar">
 			<button class="img-stop" style="margin-left: 25px;" id="stop" onclick="stop()"></button>
 			<p class="text-normal" style="margin-bottom: 0;">Parar</p>
@@ -56,7 +68,16 @@
 		</div>
 	</div>
 	<canvas id="canvas" width="0" height="0"></canvas>
+
 	<script type="text/javascript">
+		var slider1 = document.getElementById("slider1");
+        var output1 = document.getElementById("slider_span1");
+        var form = document.getElementById("range_form");
+        output1.innerHTML = slider1.value;
+        slider1.oninput = function (e) {
+            output1.innerHTML = this.value;
+            form.submit();
+        }
 		var video = document.querySelector(".video-element");
 		var stop_button = false;
 		const canvas = document.querySelector('#canvas');
@@ -81,42 +102,6 @@
 				canvas.height = video.videoHeight;
 				//chromakey()
 			})
-
-			
-			//la función chromakey pinta la información de mi video
-			function chromakey(){
-				if (this.stop_button == false){
-					setTimeout(function(){
-						//para dibujar la imagen en el canvas
-						ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-						var image = canvas.toDataURL();
-						//devuelve un array de toda la información en rgba
-						//const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-						canvas.setAttribute('src', image);
-						//document.getElementById("lsc_text").value=image;
-						$.ajax({
-							type: "POST",
-							url: '/prueba/',
-							headers: {'X-CSRFToken': '{{ csrf_token }}'},
-							data: {
-								'data_url': JSON.stringify(image)
-							},
-							/*success: function() {
-								console.log("Elemento Enviado");
-								//chromakey();
-							}*/
-						}).done(function(prediction){
-							if (prediction.result){
-								document.getElementById("lsc_text").value+=prediction.letra;
-								alert("Siguiente letra");
-								chromakey();
-							}
-						});
-					//sirve para desaparecer el canvas
-					//ctx.clearRect(0, 0, canvas.width, canvas.height)
-					},1000);
-				}
-			}
 		}
 
 		function stop(e) {
