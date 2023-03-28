@@ -15,7 +15,7 @@ mp_drawing_styles = mp.solutions.drawing_styles
 class VideoCamera(object):
         def __init__(self):
                 self.video = cv2.VideoCapture(0)
-                wCam, hCam = 1280, 720
+                wCam, hCam = 1020, 720
                 self.video.set(3, wCam)
                 self.video.set(4, hCam)
         def __del__(self):
