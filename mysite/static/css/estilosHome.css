@@ -2,13 +2,16 @@ body{
 	margin: 0;
 	padding: 0;
 }
-.h1{
+h1{
 	color:#ffffff
 }
-.h2{
+h2{
 	color:#ffffff
 }
-.p{
+h4{
+	color:#ffffff
+}
+p{
 	color:#ffffff
 }
 section{
