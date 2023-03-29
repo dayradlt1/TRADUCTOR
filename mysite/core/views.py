@@ -10,7 +10,6 @@ from django.views.decorators import gzip
 import time
 
 
-import urllib
 import numpy as np
 import cv2
 

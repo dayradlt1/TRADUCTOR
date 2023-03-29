@@ -1,20 +1,17 @@
 <title>Detector de lengua de señas</title>
 {% extends 'base.html' %}
 {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'CSS/estilosHome.css' %}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'mysite/static/css/spinner.css' %}">
-    <script src="{% static '/JS/Main.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static '/CSS/estilosHome.css' %}">
 {% block content %}
         <body>
-            <section class="header-background" style="padding-top:150px; padding-bottom:150px;">
-                <h2>Módulo diseñado para traducir el abecedario de <br>
+            <section class="header-background" style="padding-top:150px; padding-bottom:80px;">
+                <h2 class="subt">Módulo diseñado para traducir el abecedario de <br>
                 Lengua de Señas a texto</h2>
             </section>
             <div class="container text-center">
-                <div class="grid-container">
-                    <div class="video-container" class="itemVideo">
-                        <img src='http://127.0.0.1:8080/video_input/video_stream' id="video">
+                <div class="grid-container text-center">
+                    <div class="video-container text-center" class="itemVideo">
+                        <img src='http://127.0.0.1:8080/video_input/video_stream' class="video-element" id="video">
                     </div>
                 </div>
             </div>            
