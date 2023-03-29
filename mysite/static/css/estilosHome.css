@@ -3,7 +3,7 @@ body{
 	padding: 0;
 }
 .subt{
-	color:#dedede
+	color:rgb(222, 222, 222)
 }
 .subtm{
 	color:#dedede
@@ -66,7 +66,7 @@ section{
 }
 
 .footer{
-	background-color: #001063;
+	background-color: rgb(0, 16, 99);
 	width: 1020px;
 	height: 190px;
 }

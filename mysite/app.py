@@ -71,13 +71,6 @@ class VideoCamera(object):
                                 lectura_actual = pinkY 
                                 print(abs(resta), pinkY, lectura_actual)
                                 
-                                if dedos == [0, 0, 1, 0, 0, 0]:
-                                    if abs(resta) > 30:
-                                        print("jota en movimento")
-                                        font = cv2.FONT_HERSHEY_SIMPLEX
-                                        cv2.rectangle(video, (0, 0), (100, 100), (255, 255, 255), -1)
-                                        cv2.putText(video, 'J', (20, 80), font, 3, (0, 0, 0), 2, cv2.LINE_AA)
-                                        
 
                                 if results.multi_hand_landmarks:
                                     for hand_landmarks in results.multi_hand_landmarks:
